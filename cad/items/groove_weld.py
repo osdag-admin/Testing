@@ -4,6 +4,15 @@ Created on 15-May-2019
 @author: Anand Swaroop
 
 
+<<<<<<< HEAD:Connections/Component/groove_weld.py
+
+
+
+'''
+import numpy
+from ModelUtils import *
+
+=======
 '''
 import numpy
 from cad.items.ModelUtils import *
@@ -38,6 +47,7 @@ from cad.items.ModelUtils import *
 
 
 '''
+>>>>>>> icfoss-fellowship-24:cad/items/groove_weld.py
 
 class GrooveWeld(object):
 
@@ -74,6 +84,8 @@ class GrooveWeld(object):
         return prism
 
 
+<<<<<<< HEAD:Connections/Component/groove_weld.py
+=======
 if __name__ == '__main__':
 
     from OCC.Display.SimpleGui import init_display
@@ -94,3 +106,4 @@ if __name__ == '__main__':
     display.DisplayShape(prism, update=True)
     display.DisableAntiAliasing()
     start_display()
+>>>>>>> icfoss-fellowship-24:cad/items/groove_weld.py
