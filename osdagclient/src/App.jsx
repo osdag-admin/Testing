@@ -24,6 +24,7 @@ import LoginPage from './components/userAuth/LoginPage';
 
 // jwt imports 
 import jwt_decode from 'jwt-decode';
+import EndPlate from './components/shearConnection/EndPlate';
 
 let renderedOnce = false
 
@@ -50,9 +51,15 @@ function App() {
         <Route path='/design-type/:designType' element={<Window />} />
         {/* Wrap FinePlate with a route that checks authentication */}
         <Route
-          path='/design/:designType/:item'
+          path='/design/:designType/fin_plate'
           element={
              <FinePlate /> 
+          }
+        />
+        <Route
+          path='/design/:designType/end_plate'
+          element={
+             <EndPlate /> 
           }
         />
       <Route path='/user' element={<UserAccount />} />
