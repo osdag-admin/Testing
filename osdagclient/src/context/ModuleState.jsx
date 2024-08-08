@@ -222,9 +222,9 @@ export const ModuleProvider = ({ children }) => {
         }
     }
 
-    const createSession = async () => {
+    const createSession = async (module_id) => {
         try {
-            const requestData = { 'module_id': 'Fin Plate Connection' }
+            const requestData = { 'module_id': module_id }
             const response = await fetch(`${BASE_URL}sessions/create`, {
                 method: 'POST',
                 mode: 'cors',

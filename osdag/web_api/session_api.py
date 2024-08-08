@@ -52,7 +52,11 @@ class CreateSession(APIView):
             return JsonResponse("Error: Please specify module id", status=400) # Returns error response.
         if request.COOKIES.get("fin_plate_connection_session") is not None: # Error Checking: Already editing design.
             print('fin_plate_connection is there')
-            return JsonResponse({"status" : "set"}, status=200) # Returns error response.
+            return JsonResponse({"status" : "set"}, status=200) # Returns error response. 
+        elif request.COOKIES.get("end_plate_connection_session") is not None:
+               print('end_plate_connection is there')
+               return JsonResponse({"status" : "set"}, status=200) # Returns error response. 
+    
         if module_id not in developed_modules: # Error Checking: Does module api exist
             print('module_id not developed')
             return JsonResponse("Error: This module has not been developed yet", status=501) # Return error response.
@@ -74,7 +78,10 @@ class CreateSession(APIView):
 
             # create HTTPResponse and set the cookie
             response = JsonResponse({"status" : "set"} , status=201)
-            response.set_cookie(key = "fin_plate_connection_session", value = cookie_id , samesite = 'None' , secure = 'True') # Set session id cookie.
+            if(module_id=="Fin Plate Connection"):
+             response.set_cookie(key = "fin_plate_connection_session", value = cookie_id , samesite = 'None' , secure = 'True') # Set session id cookie.
+            elif (module_id=="End Plate Connection"):
+                response.set_cookie(key = "end_plate_connection_session", value = cookie_id , samesite = 'None' , secure = 'True')
             return response
         else : 
             print('serializer is invalid')

@@ -190,7 +190,7 @@ function FinePlate() {
 
 
   useEffect(() => {
-    createSession()
+    createSession('Fin Plate Connection')
   }, [])
 
 

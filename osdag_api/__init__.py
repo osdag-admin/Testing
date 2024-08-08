@@ -9,5 +9,11 @@ module_dict = [
         "image": "/static/images/modules/fin_plate_connection.png",
         "name": "Fin Plate",
         "path": "Connection/Shear Connection"
+    },
+    {
+        "key": "End Plate Connection",
+        "image": "/static/images/modules/end_plate_connection.png",
+        "name": "End Plate",
+        "path": "Connection/Shear Connection"
     }
 ]
