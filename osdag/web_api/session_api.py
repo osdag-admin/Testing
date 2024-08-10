@@ -50,11 +50,11 @@ class CreateSession(APIView):
         if module_id == None or module_id == '': # Error Checking: If module id provided.
             print('module is None or Empty')
             return JsonResponse("Error: Please specify module id", status=400) # Returns error response.
-        if request.COOKIES.get("fin_plate_connection_session") is not None: # Error Checking: Already editing design.
-            print('fin_plate_connection is there')
+        if request.COOKIES.get("end_plate_connection_session") is not None: # Error Checking: Already editing design.
+            print('end_plate_connection is there')
             return JsonResponse({"status" : "set"}, status=200) # Returns error response. 
-        elif request.COOKIES.get("end_plate_connection_session") is not None:
-               print('end_plate_connection is there')
+        elif request.COOKIES.get("fin_plate_connection_session") is not None:
+               print('fin_plate_connection is there')
                return JsonResponse({"status" : "set"}, status=200) # Returns error response. 
     
         if module_id not in developed_modules: # Error Checking: Does module api exist
@@ -82,6 +82,7 @@ class CreateSession(APIView):
              response.set_cookie(key = "fin_plate_connection_session", value = cookie_id , samesite = 'None' , secure = 'True') # Set session id cookie.
             elif (module_id=="End Plate Connection"):
                 response.set_cookie(key = "end_plate_connection_session", value = cookie_id , samesite = 'None' , secure = 'True')
+                print("cookie Set")
             return response
         else : 
             print('serializer is invalid')
@@ -100,6 +101,7 @@ class DeleteSession(APIView):
                 Deletes session object in db and deletes session id cookie.
     """
     def post(self,request: HttpRequest) -> HttpResponse:
+        print("Delete called")
         cookie_id = request.COOKIES.get("fin_plate_connection_session") # Get design session id.
         if cookie_id == None or cookie_id == '': # Error Checking: If design session id provided.
             return HttpResponse("Error: Please open module", status=400) # Returns error response.

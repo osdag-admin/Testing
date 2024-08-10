@@ -146,7 +146,7 @@ function FinePlate() {
   const [confirmationModal, setConfirmationModal] = useState(false)
   const [displaySaveInputPopup , setDisplaySaveInputPopup] = useState(false)
   const [saveInputFileName , setSaveInputFileName] = useState("")
-  const {connectivityList, beamList, columnList, materialList, boltDiameterList, thicknessList, propertyClassList, designLogs, designData, displayPDF, renderCadModel, createSession, createDesign, createDesignReport, getDesingPrefData } = useContext(ModuleContext)
+  const {connectivityList, beamList, columnList, materialList, boltDiameterList, thicknessList, propertyClassList, designLogs, designData, displayPDF, renderCadModel, createSession, createDesign, createDesignReport, getDesingPrefData,deleteSession } = useContext(ModuleContext)
 
   if(displaySaveInputPopup)[
     setTimeout(() => setDisplaySaveInputPopup(false) , 4000)
@@ -189,8 +189,12 @@ function FinePlate() {
   const [renderBoolean, setRenderBoolean] = useState(false)
 
 
+ 
   useEffect(() => {
+    
     createSession('Fin Plate Connection')
+   
+    
   }, [])
 
 

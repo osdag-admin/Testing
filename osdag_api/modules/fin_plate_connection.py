@@ -320,6 +320,7 @@ def create_from_input(input_values: Dict[str, Any]) -> FinPlateConnection:
     
     # Set the input values on the module instance.
     try : 
+        print(input_values)
         module.set_input_values(input_values)
     except Exception as e : 
         print('e in set_input_values : ' , e)

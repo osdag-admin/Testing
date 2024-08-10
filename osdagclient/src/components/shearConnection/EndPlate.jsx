@@ -146,7 +146,7 @@ function EndPlate() {
   const [confirmationModal, setConfirmationModal] = useState(false)
   const [displaySaveInputPopup , setDisplaySaveInputPopup] = useState(false)
   const [saveInputFileName , setSaveInputFileName] = useState("")
-  const {connectivityList, beamList, columnList, materialList, boltDiameterList, thicknessList, propertyClassList, designLogs, designData, displayPDF, renderCadModel, createSession, createDesign, createDesignReport, getDesingPrefData } = useContext(ModuleContext)
+  const {connectivityList, beamList, columnList, materialList, boltDiameterList, thicknessList, propertyClassList, designLogs, designData, displayPDF, renderCadModel, createSession, createDesign, createDesignReport, getDesingPrefData,deleteSession } = useContext(ModuleContext)
 
   if(displaySaveInputPopup)[
     setTimeout(() => setDisplaySaveInputPopup(false) , 4000)
@@ -159,7 +159,7 @@ function EndPlate() {
     connector_material: "E 250 (Fe 410 W)A",
     load_shear: "70",
     load_axial: "30",
-    module: "Fin Plate Connection",
+    module: "End Plate Connection",
     plate_thickness: [],
     beam_section: "MB 300",
     column_section: "HB 150",
@@ -190,7 +190,8 @@ function EndPlate() {
 
 
   useEffect(() => {
-    createSession('End Plate connection')
+    deleteSession();
+    createSession('End Plate Connection')
   }, [])
 
 
@@ -345,7 +346,7 @@ function EndPlate() {
         "Member.Supported_Section.Material": inputs.supported_material,
         "Member.Supporting_Section.Designation": inputs.column_section,
         "Member.Supporting_Section.Material": inputs.supporting_material,
-        "Module": "Fin Plate Connection",
+        "Module": "End Plate Connection",
         "Weld.Fab": inputs.weld_fab,
         "Weld.Material_Grade_OverWrite": inputs.weld_material_grade,
         "Connector.Plate.Thickness_List": allSelected.plate_thickness ? thicknessList : inputs.plate_thickness
@@ -376,7 +377,7 @@ function EndPlate() {
         "Member.Supported_Section.Material": inputs.supported_material,
         "Member.Supporting_Section.Designation": inputs.primary_beam,
         "Member.Supporting_Section.Material": inputs.supporting_material,
-        "Module": "Fin Plate Connection",
+        "Module": "End Plate Connection",
         "Weld.Fab": inputs.weld_fab,
         "Weld.Material_Grade_OverWrite": inputs.weld_material_grade,
         "Connector.Plate.Thickness_List": allSelected.plate_thickness ? thicknessList : inputs.plate_thickness

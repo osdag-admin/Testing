@@ -1,7 +1,7 @@
 from osdag_api.module_finder import *
 
 developed_modules = [
-    "Fin Plate Connection",
+    "Fin Plate Connection","End Plate Connection"
 ]
 module_dict = [
     {

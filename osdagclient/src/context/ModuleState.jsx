@@ -238,7 +238,15 @@ export const ModuleProvider = ({ children }) => {
             const data = await response.json()
             if (data['status'] == 'set') {
                 // fetch the connectivityList 
-                getConnectivityList('Fin-Plate-Connection')
+                if(module_id=="Fin Plate Connection"){
+                    getConnectivityList('Fin-Plate-Connection')
+                }
+                else{
+                    getConnectivityList('End-Plate-Connection')
+                }
+
+
+               
                 getColumnBeamMaterialList(state.currentModuleName, 'Column-Flange-Beam-Web')
                 getBoltDiameterList()
                 getThicknessList()
@@ -310,7 +318,8 @@ export const ModuleProvider = ({ children }) => {
 
     const createDesign = async (param) => {
         try {
-            const response = await fetch(`${BASE_URL}calculate-output/fin-plate-connection`, {
+            console.log(state.currentModuleName)
+            const response = await fetch(`${BASE_URL}calculate-output/${state.currentModuleName}`, {
                 method: 'POST',
                 mode: 'cors',
                 headers: {

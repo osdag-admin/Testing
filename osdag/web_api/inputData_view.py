@@ -46,7 +46,10 @@ class InputData(APIView):
         boltDiameter = request.GET.get("boltDiameter")
         propertyClass = request.GET.get("propertyClass")
         thickness = request.GET.get('thickness')
-        cookie_id = request.COOKIES.get('fin_plate_connection_session')
+        if(moduleName=='Fin-Plate-Connection'):
+          cookie_id = request.COOKIES.get('fin_plate_connection_session')
+        else:
+            cookie_id = request.COOKIES.get('end_plate_connection_session')
         print('cookie_id : ' , cookie_id)
         if cookie_id == None or cookie_id == '': # Error Checking: If design session id provided.
             return Response("Error: Please open module", status=status.HTTP_400_BAD_REQUEST) # Returns error response.
@@ -54,10 +57,8 @@ class InputData(APIView):
             print('The design session does not exists')
             return Response("Error: This design session does not exist", status = status.HTTP_404_NOT_FOUND) # Return error response.
 
-        if (moduleName != 'Fin-Plate-Connection'):
-            return Response({"error": "Bad Query Parameter"}, status=status.HTTP_400_BAD_REQUEST)
-
-        if (moduleName == 'Fin-Plate-Connection' and (connectivity is None and boltDiameter is None and propertyClass is None and thickness is None)):
+        print(moduleName)
+        if (moduleName in ['Fin-Plate-Connection','End-Plate-Connection'] and (connectivity is None and boltDiameter is None and propertyClass is None and thickness is None)):
             # fetch the list of all the connectivity options for Fin-Plate-Connection
             print("\n\n")
             print('inside connectivtityList handling ')
