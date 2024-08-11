@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState } from 'react';
-import { Input, Modal } from 'antd';
-import spacingIMG from '../assets/spacing_3.png'
+import { Input, Modal,Row,Col } from 'antd';
+import spacingIMG from '../assets/endplate_spacing.png'
 import capacityIMG1 from '../assets/L_shear1.png'
 import capacityIMG2 from '../assets/L.png'
 const placeholderOutput = {
@@ -62,23 +62,23 @@ const placeholderOutput = {
 }
 
 
-const platePopUpFields = ['Shear Yielding Capacity (kN)', 'Rupture Capacity (kN)', 'Block Shear Capacity (kN)', 'Tension Yielding Capacity (kN)', 'Tension Rupture Capacity (kN)', 'Axial Block Shear Capacity (kN)', 'Moment Demand (kNm)', 'Moment Capacity (kNm)']
-const boltPopUpFields = ['Pitch Distance (mm)', 'End Distance (mm)', 'Edge Distance (mm)']
+const platePopUpFields = ['Shear Yielding Capacity (kN)', 'Rupture Capacity (kN)', 'Block Shear Capacity (kN)', 'Tension Yielding Capacity (kN)', 'Tension Rupture Capacity (kN)', 'Axial Block Shear Capacity (kN)', 'Moment Demand (kNm)', 'Moment Capacity (kNm)','Moment Demand per Bolt (kNm)','Moment Capacity per Bolt (kNm)']
+const boltPopUpFields = ['Pitch Distance (mm)', 'End Distance (mm)', 'Edge Distance (mm)','Gauge Distance (mm)']
 
 const EndPlateOutputDock = ({ output }) => {
 
-	const [spacingModel, setSpacingModel] = useState(false);
-	const [capacityModel, setCapacityModel] = useState(false);
+	const [BoltspacingModel, setBoltSpacingModel] = useState(false);
+	const [PlatecapacityModel, setPlateCapacityModel] = useState(false);
 
 	// console.log('output : ' , output, output && Object.keys(output).length)
 	const handleDialogSpacing = (value) => {
-		if (value === 'Spacing') {
-			setSpacingModel(true);
-		} else if (value === 'Capacity') {
-			setCapacityModel(true);
+		if (value === 'BoltSpacing') {
+			setBoltSpacingModel(true);
+		} else if (value === 'PlateCapacity') {
+			setPlateCapacityModel(true);
 		} else {
-			setSpacingModel(false);
-			setCapacityModel(false);
+			setBoltSpacingModel(false);
+			setPlateCapacityModel(false);
 		}
 		};
 
@@ -95,6 +95,7 @@ const EndPlateOutputDock = ({ output }) => {
 								<h3>{key}</h3>
 								<div >
 									{Object.values(output[key]).map((elm, index1) => {
+										console.log(elm)
 										if(key == "Plate" && platePopUpFields.includes(elm.label))
 											return (<></>)
 										else if(key == "Bolt" && boltPopUpFields.includes(elm.label))
@@ -104,6 +105,7 @@ const EndPlateOutputDock = ({ output }) => {
 												<div>
 													<h4>{elm.label}</h4>
 												</div>
+												
 												<div>
 													<Input
 														type="text"
@@ -113,17 +115,38 @@ const EndPlateOutputDock = ({ output }) => {
 														disabled
 													/>
 												</div>
-												{(key !== "Weld" && index1 == (Object.values(output[key])?.length-1)) &&
+												{(key == "Bolt" && index1 == (Object.values(output[key])?.length-1)) &&
 												<>
 												<div>
-													<h4>{key == "Bolt" ? "Spacing" : "Capacity"}</h4>
+													<h4>Capacity Details</h4>
 												</div>
 												<div>
 													<Input className='btn' 
 													type="button" 
-													value={key == "Bolt" ? "Spacing" : "Capacity"} 
+													value='details'
 													onClick={() => handleDialogSpacing(key === "Bolt" ? "Spacing" : "Capacity")}/>
 												</div> 
+												<div>
+													<h4>Spacing</h4>
+												</div>
+												<div>
+													<Input className='btn' 
+													type="button" 
+													value="Spacing details"
+													onClick={() => handleDialogSpacing("BoltSpacing")}/>
+												</div> 
+												</>}
+												{(key == "Plate" && index1 == (Object.values(output[key])?.length-1)) &&
+												<>
+												<div>
+													<h4>Capacity</h4>
+												</div>
+												<div>
+													<Input className='btn' 
+													type="button" 
+													value='Capacity details'
+													onClick={() => handleDialogSpacing("PlateCapacity")}/>
+												</div>
 												</>}
 											</div>
 										);
@@ -188,10 +211,88 @@ const EndPlateOutputDock = ({ output }) => {
 					</div>}
 			</div>
 
-				{/* Spacing  */}
+				{/* Plate capacity details  */}
 				<Modal
-				visible={spacingModel}
-				onCancel={() => setSpacingModel(false)}
+				visible={PlatecapacityModel}
+				onCancel={() => setPlateCapacityModel(false)}
+				footer={null}
+				width= {'70vh'}
+				style={{ maxHeight: '800px', overflow: 'auto' }}
+                bodyStyle={{ padding: '20px' }}
+				>
+					<>
+						<div
+						style={{
+							textAlign: 'center',
+							// backgroundColor: 'black',
+							// color: 'white',
+							// padding: '10px'
+						}}
+						>
+						<h3>Capacity Details</h3>
+						</div>
+						
+						
+						<div >
+							<div className='spacing-left-body'>
+								<div>
+									<h4>Shear Yielding Capacity (kN)</h4>
+								</div>
+								<div>
+									<Input
+										type="text"
+										style={{ color: 'rgb(0 0 0 / 67%)', fontSize: '12px', fontWeight: '500',margin:'15px' }}
+										readOnly={true}
+										value= {(output && output.Plate && output?.Plate[output?.Plate.findIndex(val => val.label == "Shear Yielding Capacity (kN)")]?.val) || "0"}
+									/>
+								</div>
+								<div>
+									<h4>Block Shear Capacity (kN)</h4>
+								</div>
+								<div>
+									<Input
+										type="text"
+										style={{ color: 'rgb(0 0 0 / 67%)', fontSize: '12px', fontWeight: '500',margin:'15px'  }}
+										readOnly={true}
+										value= {(output && output.Plate && output?.Plate[output?.Plate.findIndex(val => val.label == "Block Shear Capacity (kN)")]?.val) || "0"}
+									/>
+								</div>
+								<div>
+									<h4>Moment Demand per Bolt (kNm)</h4>
+								</div>
+								<div>
+									<Input
+										type="text"
+										style={{ color: 'rgb(0 0 0 / 67%)', fontSize: '12px', fontWeight: '500',margin:'15px'  }}
+										readOnly={true}
+										value= {(output && output.Plate && output?.Plate[output?.Plate.findIndex(val => val.label == "Moment Demand per Bolt (kNm)")]?.val) || "0"}
+									/>
+								</div>
+								<div>
+									<h4>Moment Capacity per Bolt (kNm)</h4>
+								</div>
+								<div>
+									<Input
+										type="text"
+										style={{ color: 'rgb(0 0 0 / 67%)', fontSize: '12px', fontWeight: '500',margin:'15px'  }}
+										readOnly={true}
+										value= {(output && output.Plate && output?.Plate[output?.Plate.findIndex(val => val.label == "Moment Capacity per Bolt (kNm)")]?.val) || "0"}
+									/>
+								</div>
+
+
+							
+							</div>
+							
+
+						</div>
+{/*  */}
+					</>
+				</Modal>
+				{/* Capacity */}
+				<Modal
+				visible={BoltspacingModel}
+				onCancel={() => setBoltSpacingModel(false)}
 				footer={null}
 				width= {'100vh'}
 				>
@@ -277,195 +378,10 @@ const EndPlateOutputDock = ({ output }) => {
 							
 							</div>
 							<div className='spacing-right-body'> 
-								<img src={spacingIMG} alt='SpacingImage'/>
+								<img src={spacingIMG} alt='SpacingImage' width="400" height="300"/>
 							</div>
 
 						</div>
-{/*  */}
-					</>
-				</Modal>
-				{/* Capacity */}
-				<Modal
-					visible={capacityModel}
-					onCancel={() => setCapacityModel(false)}
-					footer={null}
-					width= {'120vh'}
-					style={{ maxHeight: '800px', overflow: 'auto' }}
-				>
-					<>
-						<div
-						style={{
-							textAlign: 'center',
-							// backgroundColor: 'black',
-							// color: 'white',
-							// padding: '10px'
-							
-						}}
-						>
-						<h3>Capacity Details</h3>
-						</div>
-
-						<div>
-						<p 
-							style={{ 
-								padding: '20px',
-								
-							}}>
-							Note: Representative image for Failure Pattern (Half Pate) - 2 x 3 Bolt pattern considered </p>
-							{/* <Input
-								className='btn'
-								type="button"
-								value={"Close"}
-								onClick={() => setSpacingModel(false)}
-								style={{
-									maxWidth: '10vh',
-									maxHight: 'vh',
-									marginLeft: "50vh"
-								}}
-								/> */}
-						</div>
-						<div className='Capacity-main-body'>
-								
-							<div >
-								<div className='Capacity-sub-body-title'> 
-									<h4>Failure due Shear in Plate</h4>
-								</div>
-								<div className='Capacity-sub-body'>
-								<div className='Capacity-left-body'> 
-									<div>
-										<h4>Shear Yielding Capacity (kN)</h4>
-									</div>
-									<div>
-										<Input
-											type="text"
-											style={{ color: 'rgb(0 0 0 / 67%)', fontSize: '12px', fontWeight: '500' }}
-											readOnly={true}
-											value= {(output && output.Plate && output?.Plate[output?.Plate.findIndex(val => val.label == "Shear Yielding Capacity (kN)")]?.val) || "0"}
-										/>
-									</div>
-									<div>
-										<h4>Rupture Capacity (kN)</h4>
-									</div>
-									<div>
-										<Input
-											type="text"
-											style={{ color: 'rgb(0 0 0 / 67%)', fontSize: '12px', fontWeight: '500' }}
-											readOnly={true}
-											value= {(output && output.Plate && output?.Plate[output?.Plate.findIndex(val => val.label == "Rupture Capacity (kN)")]?.val) || "0"}
-										/>
-									</div>
-									<div>
-										<h4>Block Shear Capacity (kN)</h4>
-									</div>
-									<div>
-										<Input
-											type="text"
-											style={{ color: 'rgb(0 0 0 / 67%)', fontSize: '12px', fontWeight: '500' }}
-											readOnly={true}
-											value= {(output && output.Plate && output?.Plate[output?.Plate.findIndex(val => val.label == "Block Shear Capacity (kN)")]?.val) || "0"}
-										/>
-									</div>
-									
-															
-								</div>
-								<div className='Capacity-right-body'> 
-									<img src={capacityIMG1} alt='capacityIMG1'/>
-									
-									<h5>Block Shear Pattern</h5>
-								</div>
-								</div>
-							</div>
-							{/* section 2 */}
-							<div >
-								<div className='Capacity-sub-body-title'> 
-									<h4>Failure due Tension in Plate</h4>
-								</div>
-								<div className='Capacity-sub-body'>
-								<div className='Capacity-left-body'> 
-									<div>
-										<h4>Tension Yielding Capacity (kN)</h4>
-									</div>
-									<div>
-										<Input
-											type="text"
-											style={{ color: 'rgb(0 0 0 / 67%)', fontSize: '12px', fontWeight: '500' }}
-											readOnly={true}
-											value= {(output && output.Plate && output?.Plate[output?.Plate.findIndex(val => val.label == "Tension Yielding Capacity (kN)")]?.val) || "0"}
-										/>
-									</div>
-									<div>
-										<h4>Tension Rupture Capacity (kN)</h4>
-									</div>
-									<div>
-										<Input
-											type="text"
-											style={{ color: 'rgb(0 0 0 / 67%)', fontSize: '12px', fontWeight: '500' }}
-											readOnly={true}
-											value= {(output && output.Plate && output?.Plate[output?.Plate.findIndex(val => val.label == "Tension Rupture Capacity (kN)")]?.val) || "0"}
-										/>
-									</div>
-									<div>
-										<h4>Axial Block Shear Capacity (kN)</h4>
-									</div>
-									<div>
-										<Input
-											type="text"
-											style={{ color: 'rgb(0 0 0 / 67%)', fontSize: '12px', fontWeight: '500' }}
-											readOnly={true}
-											value= {(output && output.Plate && output?.Plate[output?.Plate.findIndex(val => val.label == "Axial Block Shear Capacity (kN)")]?.val) || "0"}
-										/>
-									</div>
-									
-															
-								</div>
-								<div className='Capacity-right-body'> 
-									<img src={capacityIMG2} alt='capacityIMG2'/>
-									
-									<h5>Block Shear Pattern</h5>
-								</div>
-								</div>
-							</div>
-							{/* Section 3 */}
-							<div >
-								<div className='Capacity-sub-body-title'> 
-									<h4>Section 3</h4>
-								</div>
-								<div className='Capacity-sub-body'>
-								<div className='Capacity-left-body'> 
-									<div>
-										<h4>Moment Demand (kNm)</h4>
-									</div>
-									<div>
-										<Input
-											type="text"
-											style={{ color: 'rgb(0 0 0 / 67%)', fontSize: '12px', fontWeight: '500', marginBottom: '20px' }}
-											readOnly={true}
-											value= {(output && output.Plate && output?.Plate[output?.Plate.findIndex(val => val.label == "Moment Demand (kNm)")]?.val) || "0"}
-										/>
-									</div>
-									<div>
-										<h4>Moment Capacity (kNm)</h4>
-									</div>
-									<div>
-										<Input
-											type="text"
-											style={{ color: 'rgb(0 0 0 / 67%)', fontSize: '12px', fontWeight: '500' }}
-											readOnly={true}
-											value= {(output && output.Plate && output?.Plate[output?.Plate.findIndex(val => val.label == "Moment Capacity (kNm)")]?.val) || "0"}
-										/>
-									</div>
-									
-															
-								</div>
-								<div className='Capacity-right-body'> 
-									{/* <img src={capacityIMG2} alt='capacityIMG2'/>
-									
-									<h5>Block Shear Pattern</h5> */}
-								</div>
-								</div>
-							</div>
-						</div>
-
 {/*  */}
 					</>
 				</Modal>
