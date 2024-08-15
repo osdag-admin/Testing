@@ -325,8 +325,9 @@ def generate_output(input_values: Dict[str, Any]) -> Dict[str, Any]:
     raw_output_text = module.output_values(True)
     raw_output_spacing = module.spacing(True)  # Generate output val
     raw_output_capacities = module.capacities(True)
+    raw_output_bolt_capacity = module.bolt_capacity_details(True)
     logs = module.logs
-    raw_output = raw_output_capacities + raw_output_spacing + raw_output_text
+    raw_output = raw_output_capacities + raw_output_spacing + raw_output_text + raw_output_bolt_capacity
     # os.system("clear")
     # Loop over all the text values and add them to ouptut dict.
     for param in raw_output:

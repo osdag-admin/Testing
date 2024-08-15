@@ -1362,6 +1362,7 @@ class EndPlateConnection(ShearConnection):
         t21_4 = (KEY_OUT_BOLT_IR, KEY_OUT_DISP_BOLT_IR, TYPE_TEXTBOX, round(self.comb_bolt_ir/1000000,2) if flag else '', True)
         bolt_details.append(t21_4)
 
+
         return bolt_details
 
     def spacing(self, flag):

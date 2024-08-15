@@ -28,7 +28,7 @@ import CustomSectionModal from '../CustomSectionModal';
 import DropdownMenu from '../DropdownMenu';
 
 // crypto packages
-import {decode as base64_decode, encode as base64_encode} from 'base-64';
+import { decode as base64_decode, encode as base64_encode } from 'base-64';
 import { UserContext } from '../../context/UserState';
 
 
@@ -48,7 +48,7 @@ const MenuItems = [
     dropdown: [
       { name: "Load Input", shortcut: "Ctrl+L" },
       { name: "Download Input", shortcut: "Ctrl+D" },
-      { name: "Save Input" , shortcut : "Alt+N"},
+      { name: "Save Input", shortcut: "Alt+N" },
       { name: "Save Log Messages", shortcut: "Alt+M" },
       { name: "Create Design Report", shortcut: "Alt+C" },
       { name: "Save 3D Model", shortcut: "Alt+3" },
@@ -96,39 +96,7 @@ const MenuItems = [
     ]
   }
 ];
-// End 
-// Key event 
-// const KeyPressListener = () => {
-//   useEffect(() => {
-//     const handleKeyDown = (event) => {
-//       // Check for key combinations
-//       if (event.altKey && event.key === 'p') {
 
-//         console.log('Alt + P pressed');
-//       } 
-//       if (event.altKey && event.key === 'q') {
-
-//         console.log('Alt + q pressed');
-//       } 
-
-//       // Listen for individual key presses
-//       switch (event.key) {
-//         case 'Enter':
-//           console.log('Enter key pressed');
-//           break;
-//         case 'Escape':
-//           console.log('Escape key pressed');
-//           break;
-//         default:
-//           break;
-//       }
-//     };
-
-//     window.addEventListener('keydown', handleKeyDown);
-
-//   }, []);
-// };
-// end
 
 function EndPlate() {
 
@@ -144,12 +112,12 @@ function EndPlate() {
   const [designPrefModalStatus, setDesignPrefModalStatus] = useState(false)
   const [showModal, setShowModal] = useState(false)
   const [confirmationModal, setConfirmationModal] = useState(false)
-  const [displaySaveInputPopup , setDisplaySaveInputPopup] = useState(false)
-  const [saveInputFileName , setSaveInputFileName] = useState("")
-  const {connectivityList, beamList, columnList, materialList, boltDiameterList, thicknessList, propertyClassList, designLogs, designData, displayPDF, renderCadModel, createSession, createDesign, createDesignReport, getDesingPrefData,deleteSession } = useContext(ModuleContext)
+  const [displaySaveInputPopup, setDisplaySaveInputPopup] = useState(false)
+  const [saveInputFileName, setSaveInputFileName] = useState("")
+  const { connectivityList, beamList, columnList, materialList, boltDiameterList, thicknessList, propertyClassList, designLogs, designData, displayPDF, renderCadModel, createSession, createDesign, createDesignReport, getDesingPrefData, deleteSession } = useContext(ModuleContext)
 
-  if(displaySaveInputPopup)[
-    setTimeout(() => setDisplaySaveInputPopup(false) , 4000)
+  if (displaySaveInputPopup) [
+    setTimeout(() => setDisplaySaveInputPopup(false), 4000)
   ]
 
   const [inputs, setInputs] = useState({
@@ -685,20 +653,13 @@ function EndPlate() {
     setInputs({ ...inputs, plate_thickness: nextTargetKeys })
   };
 
-  // Get local Stored Items
-
-  // const storedCompanyLogo = JSON.parse(localStorage.getItem('companyLogo'));
-  // const storedCompanyLogoName = localStorage.getItem('companyLogoName');
-  // Image file changehandler 
   const handleImageFileChange = (event) => {
 
-    // get the selected file from the event 
+
     const imageFile = event.target.files[0]
     let imageFileName = event.target.files[0].name
 
-    // Add local storage code 
-    // localStorage.setItem('companyLogo',imageFile);
-    // localStorage.setItem('companyLogoName', imageFileName);
+
 
     setDesignReportInputs({ ...designReportInputs, companyLogo: imageFile, companyLogoName: imageFileName })
   }
@@ -752,7 +713,7 @@ function EndPlate() {
     console.log('obtain stored company logo images')
 
     // obtaining the companyLogo
-    if(localStorage.getItem('companyLogo') && localStorage.getItem('companyLogoName')){
+    if (localStorage.getItem('companyLogo') && localStorage.getItem('companyLogoName')) {
       let storedCompanyLogo = localStorage.getItem('companyLogo')
       storedCompanyLogo = JSON.parse(storedCompanyLogo)
       // stored CompanyLogo is an array, it comtains the actual file
@@ -795,21 +756,21 @@ function EndPlate() {
             />
           ))}
 
-          {displaySaveInputPopup && <span id="save-input-style" style={{'marginTop' : '18px'}}>
-              <strong>Saved input file as &quot; {saveInputFileName} &quot;</strong>
+          {displaySaveInputPopup && <span id="save-input-style" style={{ 'marginTop': '18px' }}>
+            <strong>Saved input file as &quot; {saveInputFileName} &quot;</strong>
           </span>}
 
-        <h1 className="element">
-              <Button
-                onClick={() => {
-                  navigate('/home');
-                }}
-                style={{ backgroundColor: 'black', color: 'white' }}
-              >
-                Home
-              </Button>
-        </h1>
-          
+          <h1 className="element">
+            <Button
+              onClick={() => {
+                navigate('/home');
+              }}
+              style={{ backgroundColor: 'black', color: 'white' }}
+            >
+              Home
+            </Button>
+          </h1>
+
         </div>
         {/* <KeyPressListener /> */}
 
@@ -818,16 +779,7 @@ function EndPlate() {
           {/* Left */}
           <div>
             <div className='component-grid'>
-                  
-            {/*<div><h4>Workspace Name :</h4></div>
-                <div>
-                  <Input
-                    type="text"
-                    name="workspacename"
-                    // onChange={(event) => setInputs({ ...inputs, load_axial: event.target.value })}
-                    />
-                </div>
-              */}
+
             </div>
             <h5>Input Dock</h5>
             <div className='subMainBody scroll-data'>
@@ -1245,11 +1197,11 @@ function EndPlate() {
                   maxHeight={1200}
                   maskClosable={false}
                 >
-                  <DesignPrefSections 
-                    inputs={inputs} 
-                    setInputs={setInputs} 
-                    selectedOption={selectedOption} 
-                    setDesignPrefModalStatus={setDesignPrefModalStatus} 
+                  <DesignPrefSections
+                    inputs={inputs}
+                    setInputs={setInputs}
+                    selectedOption={selectedOption}
+                    setDesignPrefModalStatus={setDesignPrefModalStatus}
                     confirmationModal={confirmationModal}
                     setConfirmationModal={setConfirmationModal}
                   />
