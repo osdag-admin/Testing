@@ -330,6 +330,7 @@ export const ModuleProvider = ({ children }) => {
                 body: JSON.stringify(param)
             })
             const jsonResponse = await response?.json()
+            console.log(jsonResponse)
             dispatch({ type: 'SET_DESIGN_DATA_AND_LOGS', payload: jsonResponse })
             if (response.status == 201) {
                 // call the thunk to create the CAD Model

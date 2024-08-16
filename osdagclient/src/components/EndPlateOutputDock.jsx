@@ -101,7 +101,6 @@ const EndPlateOutputDock = ({ output }) => {
 								<h3>{key}</h3>
 								<div >
 									{Object.values(output[key]).map((elm, index1) => {
-										console.log(elm)
 										if (key == "Plate" && platePopUpFields.includes(elm.label))
 											return (<></>)
 										else if (key == "Bolt" && boltPopUpFields.includes(elm.label))
