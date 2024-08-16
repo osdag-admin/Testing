@@ -101,17 +101,25 @@ class DeleteSession(APIView):
                 Deletes session object in db and deletes session id cookie.
     """
     def post(self,request: HttpRequest) -> HttpResponse:
-        print("Delete called")
-        cookie_id = request.COOKIES.get("fin_plate_connection_session") # Get design session id.
+        module_id = request.data.get('module_id')
+        print('module_id in session : ' , module_id)
+        if(module_id=='End Plate Connection'):
+           cookie_id = request.COOKIES.get("end_plate_connection_session") 
+        elif(module_id=='Fin Plate Connection'):# Get design session id.
+            cookie_id = request.COOKIES.get("fin_plate_connection_session") 
         if cookie_id == None or cookie_id == '': # Error Checking: If design session id provided.
             return HttpResponse("Error: Please open module", status=400) # Returns error response.
         if not Design.objects.filter(cookie_id=cookie_id).exists(): # Error Checking: If design session exists.
             return HttpResponse("Error: This design session does not exist", status=404) # Return error response.
         try: # Try deleting session.
-            fin_plate_connection_session = Design.objects.get(cookie_id=cookie_id) # Design session object in db.
-            fin_plate_connection_session.delete()
+            connection_session = Design.objects.get(cookie_id=cookie_id) # Design session object in db.
+            connection_session.delete()
         except Exception as e: # Error Checking: While saving design.
             return HttpResponse("Inernal Server Error: " + repr(e), status=500) # Return error response.
         response = HttpResponse(status=200) # Status code 200 - Successfully deleted .
-        response.delete_cookie("fin_plate_connection_session")
+
+        if(module_id=='End Plate Connection'):
+          response.delete_cookie("end_plate_connection_session")
+        elif (module_id=='Fin Plate Connection'):
+          response.delete_cookie("fin_plate_connection_session")
         return response

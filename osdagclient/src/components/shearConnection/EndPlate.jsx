@@ -1,6 +1,6 @@
 
 import '../../App.css'
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState,useLayoutEffect } from 'react';
 import 'react-toastify/dist/ReactToastify.css';
 import { Select, Input, Modal, Button, Row, Col } from 'antd';
 import { useNavigate } from 'react-router-dom'
@@ -30,7 +30,7 @@ import DropdownMenu from '../DropdownMenu';
 // crypto packages
 import { decode as base64_decode, encode as base64_encode } from 'base-64';
 import { UserContext } from '../../context/UserState';
-
+import { useLocation } from 'react-router-dom';
 
 const { Option } = Select;
 
@@ -158,11 +158,17 @@ function EndPlate() {
 
 
   useEffect(() => {
-    deleteSession();
     createSession('End Plate Connection')
   }, [])
 
+  useEffect(() => {
+    return () => {
+     if(location.pathname!="/design/connections/end_plate"){
+              deleteSession('End Plate Connection');
+    }
+    };
 
+  }, []);
   const handleSelectChangePropertyClass = (value) => {
     if (value === 'Customized') {
       // check, if the bolt_grade already has a value, then set it to that value 
@@ -222,6 +228,7 @@ function EndPlate() {
     }
   };
 
+ 
 
   useEffect(() => {
 
@@ -246,7 +253,7 @@ function EndPlate() {
 
 
   ;
-
+  
   useEffect(() => {
     if (displayOutput) {
       try {
@@ -351,7 +358,7 @@ function EndPlate() {
         "Connector.Plate.Thickness_List": allSelected.plate_thickness ? thicknessList : inputs.plate_thickness
       }
     }
-    createDesign(param)
+    createDesign(param,"End-Plate-Connection")
     setDisplayOutput(true)
   }
   // Create design report ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

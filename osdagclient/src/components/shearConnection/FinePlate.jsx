@@ -194,8 +194,16 @@ function FinePlate() {
     
     createSession('Fin Plate Connection')
    
-    
   }, [])
+
+  useEffect(() => {
+    return () => {
+     if(location.pathname!="/design/connections/fin_plate"){
+              deleteSession('Fin Plate Connection');
+    }
+    };
+
+  }, []);
 
 
   const handleSelectChangePropertyClass = (value) => {
@@ -386,7 +394,7 @@ function FinePlate() {
         "Connector.Plate.Thickness_List": allSelected.plate_thickness ? thicknessList : inputs.plate_thickness
       }
     }
-    createDesign(param)
+    createDesign(param,"Fin-Plate-Connection")
     setDisplayOutput(true)
   }
   // Create design report ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

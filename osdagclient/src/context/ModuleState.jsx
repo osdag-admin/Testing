@@ -225,6 +225,7 @@ export const ModuleProvider = ({ children }) => {
     const createSession = async (module_id) => {
         try {
             const requestData = { 'module_id': module_id }
+            console.log(requestData)
             const response = await fetch(`${BASE_URL}sessions/create`, {
                 method: 'POST',
                 mode: 'cors',
@@ -273,15 +274,19 @@ export const ModuleProvider = ({ children }) => {
         }
     }
 
-    const deleteSession = async () => {
+    const deleteSession = async (module_id) => {
         try {
+            const requestData = { 'module_id': module_id }
+            console.log(requestData)
+
             const response = await fetch(`${BASE_URL}sessions/delete`, {
                 method: 'POST',
                 mode: 'cors',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                credentials: 'include'
+                credentials: 'include',
+                body: JSON.stringify(requestData)
             })
             if (response.status == 200) {
                 console.log('The session has been deleted')
@@ -316,10 +321,9 @@ export const ModuleProvider = ({ children }) => {
         }
     }
 
-    const createDesign = async (param) => {
+    const createDesign = async (param,module_id) => {
         try {
-            console.log(state.currentModuleName)
-            const response = await fetch(`${BASE_URL}calculate-output/${state.currentModuleName}`, {
+            const response = await fetch(`${BASE_URL}calculate-output/${module_id}`, {
                 method: 'POST',
                 mode: 'cors',
                 headers: {
