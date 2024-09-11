@@ -1457,7 +1457,7 @@ class EndPlateConnection(ShearConnection):
     # Function to create design report (LateX/PDF)
     ######################################
     def save_design(self, popup_summary):
-        super(EndPlateConnection, self).save_design(self)
+        super(EndPlateConnection, self).save_design()
         gamma_m0 = IS800_2007.cl_5_4_1_Table_5["gamma_m0"]['yielding']
         gamma_m1 = IS800_2007.cl_5_4_1_Table_5["gamma_m1"]['ultimate_stress']
 
@@ -1752,7 +1752,7 @@ class EndPlateConnection(ShearConnection):
             ##################
             # Weld Checks
             ##################
-            plate_status = self.get_plate_status(self)
+            plate_status = self.get_plate_status()
 
             if self.design_status_bolt is True and plate_status is True:
                 weld_conn_plates_fu = [self.plate.fu, self.supported_section.fu, self.weld.fu]
@@ -1797,6 +1797,7 @@ class EndPlateConnection(ShearConnection):
         fname_no_ext = popup_summary['filename']
         CreateLatex.save_latex(CreateLatex(), self.report_input, self.report_check, popup_summary, fname_no_ext,
                                rel_path, Disp_2d_image, Disp_3D_image, module=self.module)
+        return True
 
     def get_plate_status(self):
         if self.plate.plate_moment < self.plate.plate_moment_capacity \

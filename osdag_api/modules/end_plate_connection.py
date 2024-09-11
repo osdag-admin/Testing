@@ -280,14 +280,14 @@ def validate_input_new(input_values: Dict[str, Any]) -> None:
 
 
 def create_module() -> EndPlateConnection:
-    """Create an instance of the fin plate connection module design class and set it up for use"""
+    """Create an instance of the End plate connection module design class and set it up for use"""
     module = EndPlateConnection()  # Create an instance of the FinPlateConnection
     module.set_osdaglogger(None)
     return module
 
 
 def create_from_input(input_values: Dict[str, Any]) -> EndPlateConnection:
-    """Create an instance of the fin plate connection module design class from input values."""
+    """Create an instance of the End plate connection module design class from input values."""
     # validate_input(input_values)
     try : 
         module = create_module()  # Create module instance.
