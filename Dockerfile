@@ -1,7 +1,13 @@
 FROM ubuntu:22.04
 
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=Asia/Kolkata
+
 RUN apt update && \
-    apt install -y wget bzip2 software-properties-common curl python3-pip libpq-dev libssl-dev build-essential libgl1-mesa-glx libglu1-mesa
+    apt install -y wget bzip2 software-properties-common curl python3-pip libpq-dev libssl-dev build-essential libgl1-mesa-glx libglu1-mesa freecad && \
+    mkdir -p /snap/bin && \
+    ln -s /usr/bin/freecad /snap/bin/freecad.cmd
 
 
 RUN mkdir -p /opt/conda && \
@@ -9,7 +15,6 @@ RUN mkdir -p /opt/conda && \
     bash /opt/conda/miniconda.sh -b -p /opt/miniconda && \
     rm -f /opt/conda/miniconda.sh && \
     /opt/miniconda/bin/conda init bash
-
 
 COPY install_dependencies.sh /app/install_dependencies.sh
 COPY ./conda_packages/ /app/conda_packages/
@@ -30,10 +35,7 @@ RUN bash -c "source /opt/miniconda/etc/profile.d/conda.sh && \
                  /app/conda_packages/pynput-1.6.8-py2.py3-none-any.whl \
                  /app/conda_packages/PyGithub-1.54.1.tar.gz"
 
-
 WORKDIR /app
-
-
 
 RUN chmod +x /app/install_dependencies.sh && \
     bash -c "source /opt/miniconda/etc/profile.d/conda.sh && \
@@ -46,10 +48,7 @@ RUN bash -c "source /opt/miniconda/etc/profile.d/conda.sh && \
     conda activate myenv && \
     pip install -r requirements.txt"
 
-
 ENV LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libstdc++.so.6
-
-
 EXPOSE 8000
 
 CMD ["bash", "-c", "source /opt/miniconda/etc/profile.d/conda.sh && conda activate myenv && python manage.py runserver 0.0.0.0:8000"]
