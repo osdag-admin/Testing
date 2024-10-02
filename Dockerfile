@@ -5,7 +5,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=Asia/Kolkata
 
 RUN apt update && \
-    apt install -y wget bzip2 software-properties-common curl python3-pip libpq-dev libssl-dev build-essential libgl1-mesa-glx libglu1-mesa freecad && \
+    apt install -y wget bzip2 software-properties-common curl python3-pip libpq-dev libssl-dev build-essential libgl1-mesa-glx libglu1-mesa freecad texlive-full && \
     mkdir -p /snap/bin && \
     ln -s /usr/bin/freecad /snap/bin/freecad.cmd
 
