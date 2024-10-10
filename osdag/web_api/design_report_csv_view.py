@@ -4,8 +4,8 @@ from rest_framework.views import APIView
 from django.utils.crypto import get_random_string
 from django.http import FileResponse
 
-from osdag_api.modules.fin_plate_connection import create_from_input
-
+from osdag_api.modules.fin_plate_connection import create_from_input as fin_plate_create_from_input
+from osdag_api.modules.end_plate_connection import create_from_input as end_plate_create_from_input
 # importing models
 from osdag.models import Design
 
@@ -33,8 +33,9 @@ class CreateDesignReport(APIView):
         # obtain teh cookies
         metadata = request.data.get('metadata')
         print('metadata : ' , metadata)
-        cookie_id = request.COOKIES.get('fin_plate_connection_session')
+        cookie_id = request.COOKIES.get('fin_plate_connection_session') or request.COOKIES.get('end_plate_connection_session')
         print('cookie_id : ', cookie_id)
+       
 
         # obtain the currenct working directory as it gets changed in the osdag desktop code, then 
         # we will use the same value to bring it back to the current directory 
@@ -105,7 +106,10 @@ class CreateDesignReport(APIView):
 
         try:
             print('creating module from input')
-            module = create_from_input(input_values)
+            if(request.COOKIES.get('end_plate_connection_session')):
+               module=end_plate_create_from_input(input_values)
+            else:
+              module=fin_plate_create_from_input(input_values)
         except Exception as e:
             print('e : ', e)
 

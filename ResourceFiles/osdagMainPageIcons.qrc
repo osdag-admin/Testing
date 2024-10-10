@@ -17,6 +17,11 @@
     <file>images/iit_logo.png</file>
     <file>images/Osdag_header.png</file>
     <file>images/workspace_icon.png</file>
+<<<<<<< HEAD
+	<file>images/beam_column.png</file>
+	<file>images/beam_column_endplate.png</file>
+
+=======
     <file>images/ff.png</file>
     <file>images/fextnone.png</file>
     <file>images/fextnboth.png</file>
@@ -25,5 +30,6 @@
     <file>images/webextnboth.png</file>
     <file>images/beam_column_endplate.png</file>
     <file>images/user_section1.png</file>
+>>>>>>> icfoss-fellowship-24
   </qresource>
 </RCC>

@@ -13,7 +13,7 @@ from osdag.web_api.user_view import SignupView, ForgetPasswordView, LogoutView, 
 from osdag.web_api.jwt_api import JWTHomeView
 from osdag.web_api.google_sso_api import GoogleSSOView
 from . import views
-
+from osdag.web_api.endplate_outputView import EndPLateOutputData
 # temporary
 app_name = 'osdag-web/'
 
@@ -78,7 +78,10 @@ urlpatterns = [
     path('user/set-refresh/' , SetRefreshTokenCookieView.as_view()),
 
     # output generation from input
-    path('calculate-output/fin-plate-connection',
-         OutputData.as_view(), name='fin-plate-connection'),
+    path('calculate-output/Fin-Plate-Connection',
+         OutputData.as_view(), name='Fin-plate-connection'),
+
+    path('calculate-output/End-Plate-Connection',
+         EndPLateOutputData.as_view(), name='End-Plate-Connection'),
 
 ]

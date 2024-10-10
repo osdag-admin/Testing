@@ -222,9 +222,10 @@ export const ModuleProvider = ({ children }) => {
         }
     }
 
-    const createSession = async () => {
+    const createSession = async (module_id) => {
         try {
-            const requestData = { 'module_id': 'Fin Plate Connection' }
+            const requestData = { 'module_id': module_id }
+            console.log(requestData)
             const response = await fetch(`${BASE_URL}sessions/create`, {
                 method: 'POST',
                 mode: 'cors',
@@ -238,7 +239,15 @@ export const ModuleProvider = ({ children }) => {
             const data = await response.json()
             if (data['status'] == 'set') {
                 // fetch the connectivityList 
-                getConnectivityList('Fin-Plate-Connection')
+                if(module_id=="Fin Plate Connection"){
+                    getConnectivityList('Fin-Plate-Connection')
+                }
+                else{
+                    getConnectivityList('End-Plate-Connection')
+                }
+
+
+               
                 getColumnBeamMaterialList(state.currentModuleName, 'Column-Flange-Beam-Web')
                 getBoltDiameterList()
                 getThicknessList()
@@ -265,15 +274,19 @@ export const ModuleProvider = ({ children }) => {
         }
     }
 
-    const deleteSession = async () => {
+    const deleteSession = async (module_id) => {
         try {
+            const requestData = { 'module_id': module_id }
+            console.log(requestData)
+
             const response = await fetch(`${BASE_URL}sessions/delete`, {
                 method: 'POST',
                 mode: 'cors',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                credentials: 'include'
+                credentials: 'include',
+                body: JSON.stringify(requestData)
             })
             if (response.status == 200) {
                 console.log('The session has been deleted')
@@ -308,9 +321,9 @@ export const ModuleProvider = ({ children }) => {
         }
     }
 
-    const createDesign = async (param) => {
+    const createDesign = async (param,module_id) => {
         try {
-            const response = await fetch(`${BASE_URL}calculate-output/fin-plate-connection`, {
+            const response = await fetch(`${BASE_URL}calculate-output/${module_id}`, {
                 method: 'POST',
                 mode: 'cors',
                 headers: {
@@ -321,6 +334,7 @@ export const ModuleProvider = ({ children }) => {
                 body: JSON.stringify(param)
             })
             const jsonResponse = await response?.json()
+            console.log(jsonResponse)
             dispatch({ type: 'SET_DESIGN_DATA_AND_LOGS', payload: jsonResponse })
             if (response.status == 201) {
                 // call the thunk to create the CAD Model

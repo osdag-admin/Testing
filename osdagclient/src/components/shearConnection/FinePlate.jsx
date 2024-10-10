@@ -146,7 +146,7 @@ function FinePlate() {
   const [confirmationModal, setConfirmationModal] = useState(false)
   const [displaySaveInputPopup , setDisplaySaveInputPopup] = useState(false)
   const [saveInputFileName , setSaveInputFileName] = useState("")
-  const {connectivityList, beamList, columnList, materialList, boltDiameterList, thicknessList, propertyClassList, designLogs, designData, displayPDF, renderCadModel, createSession, createDesign, createDesignReport, getDesingPrefData } = useContext(ModuleContext)
+  const {connectivityList, beamList, columnList, materialList, boltDiameterList, thicknessList, propertyClassList, designLogs, designData, displayPDF, renderCadModel, createSession, createDesign, createDesignReport, getDesingPrefData,deleteSession } = useContext(ModuleContext)
 
   if(displaySaveInputPopup)[
     setTimeout(() => setDisplaySaveInputPopup(false) , 4000)
@@ -189,9 +189,21 @@ function FinePlate() {
   const [renderBoolean, setRenderBoolean] = useState(false)
 
 
+ 
   useEffect(() => {
-    createSession()
+    
+    createSession('Fin Plate Connection')
+   
   }, [])
+
+  useEffect(() => {
+    return () => {
+     if(location.pathname!="/design/connections/fin_plate"){
+              deleteSession('Fin Plate Connection');
+    }
+    };
+
+  }, []);
 
 
   const handleSelectChangePropertyClass = (value) => {
@@ -382,7 +394,7 @@ function FinePlate() {
         "Connector.Plate.Thickness_List": allSelected.plate_thickness ? thicknessList : inputs.plate_thickness
       }
     }
-    createDesign(param)
+    createDesign(param,"Fin-Plate-Connection")
     setDisplayOutput(true)
   }
   // Create design report ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
